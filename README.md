@@ -1,0 +1,2 @@
+# GolashBoy-Virtual-Assistant
+It is a python based my private assistant which helps me to send email, play music ,open my Google ,Youtube, Hackerrank etc. It also wishes me in microsoft voice(sapi5) according to time (eg. Good Afternoon Himanshu Sir Have Your Lunch or not during the time period of 12 noon to 6 p.m. etc.)  Used Libraries:-pyttsx3,Speech_recognition,datetime ,wikipedia,smtplib etc..

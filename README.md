@@ -1,2 +1,19 @@
 # GolashBoy-Virtual-Assistant
-It is a python based my private assistant project which helps me to send email, play music ,open my Google ,Youtube, Hackerrank etc. It also wishes me in microsoft voice (voice-sapi5) according to the time (eg. Good Afternoon Himanshu Sir Have Your Lunch or not, during the time period of 12 noon to 6 p.m. etc.)  Used Libraries:-pyttsx3,Speech_recognition,datetime ,wikipedia,smtplib etc..
+It is my python-based private desktop assistant project named- “MALGO” which helps me to
+send Email, Play Music, Open Google, YouTube, LinkedIn, GitHub, Tell me about the current
+time, etc. It can search for anything from Wikipedia through voice commands. It can greet me
+according to time if time is in between 12 noon to 6 p.m. then it says Good Afternoon Sir
+Have Your Lunch or not, in Microsoft Agent voice [API used-sapi5]. It can also send
+WhatsApp messages through voice command to any phone number which you enter in the
+code. I am also using energy and pause threshold concepts to minimize the surrounding
+noise so that it can easily recognize our voice within that range. Have you ever wondered
+how cool it would be to have your own A.I. assistant? Imagine how easier it would be to send
+emails without typing a single word, doing Wikipedia searches without opening web
+browsers, and performing many other daily tasks like playing music with the help of a single
+voice command. I can take a screenshot of my screen through voice command and save it to
+my local storage as well.
+I can also use as many modules using pip install command in the future.
+Using Libraries: -
+pyttsx3, Speech-recognition, DateTime, Wikipedia, smtplib, Pywhatkit (For WhatsApp
+Messaging Automation), webbrowser, datetime, etc.
+So, it is very much helpful in the tasks which we all are doing or performing on a regular basis.

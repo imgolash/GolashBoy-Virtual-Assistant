@@ -1,10 +1,12 @@
+import os
+import pyautogui as him2
 import pyttsx3 
-import speech_recognition as sr 
-import datetime
+import pywhatkit as him
+import speech_recognition as him1
 import wikipedia 
 import webbrowser
-import os
 import smtplib
+import datetime
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -16,40 +18,46 @@ def speak(audio):
     engine.runAndWait()
 
 
-def wishMe():
+def greet():
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
-        speak("Good Morning Sir Have Your Tea Or Coffee!")
+        speak("Good Morning Sir, Have Your Tea Or Coffee!")
 
     elif hour>=12 and hour<18:
-        speak("Good Afternoon Sir Have Your Lunch!")   
+        speak("Good Afternoon Sir, Have Your Lunch or not!")   
 
     else:
         speak("Good Evening Sir,Have Your Snacks or not!")  
 
-    speak("I am Your Personal Assistant Himanshu sir. How may I help you")       
+    speak("I am MALGO Your Personal Assistant Himanshu sir. How may I help you")       
 
-def takeCommand():
+def Command():
     
 
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Listening You Sir......")
-        r.pause_threshold = 1
-        audio = r.listen(source)
+    r = him1.Recognizer()
+    with him1.Microphone() as source:
+       r.adjust_for_ambient_noise(source,duration=5)
+       print("Listening You Sir......")
+       speak("Listening You Sir......")
+       r.pause_threshold = 0.8
+       audio = r.listen(source)
 
     try:
-        print("Tyr To Gotting...")    
+        print("Try To Gotting...")
+        speak("Try To Gotting...")    
         query = r.recognize_google(audio, language='en-in')
-        print("Himanshu Sir said: {query}\n")
+        print("Ok Sir >>\n")
+        speak("Ok Sir >>\n")
 
     except Exception as e:
-          
-        print("Please Say That Again Sir...")  
+        
+        print(e)
+        print("Please Say That Again Sir...")
+        speak("Please Say That Again Sir...")  
         return "None"
     return query
 
-def sendEmail(to, content):
+def Email(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
@@ -58,35 +66,42 @@ def sendEmail(to, content):
     server.close()
 
 if __name__ == "__main__":
-    wishMe()
+    greet()
     while True:
 
-        query = takeCommand().lower()
+        query = Command().lower()
 
        
-        if 'wikipedia' in query:
-            speak('Searching From Very Intelligent Wikipedia...')
+        if 'Tell Me About ' in query:
+            speak('Searching From Net...')
             query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences=3)
-            speak("As  Wiki Says...")
+            results = wikipedia.summary(query, sentences=2)
+            speak("As Net Says...")
             print(results)
             speak(results)
 
         elif 'open my google' in query:
             webbrowser.open("www.google.com")
+            
+        elif 'take screenshot'in query:
+            SS = him2.screenshot()
+            SS.save(r'C:\Users\GOLASHBOY\Pictures\ss\pic1.png')    
+            
+        elif 'send whatsapp to me' in query:
+            him.sendwhatmsg("+919634470602","Hi sir how are you?",17,40)    
 
         elif 'open my youtube' in query:
             webbrowser.open("www.youtube.com")
 
-        elif 'open my hackerrank profile ' in query:
-            webbrowser.open("www.hackerrank.com/golashhimanshu4")   
+        elif 'open my github ' in query:
+            webbrowser.open("www.github.com")   
 
 
-        elif 'play music  My PA' in query:
-            music_dir = 'C:\Users\Public\Music\Sample Music'
-            songs = os.listdir(music_dir)
-            print(songs)    
-            os.startfile(os.path.join(music_dir, songs[0]))
+        elif 'open image MALGO' in query:
+            image_dir = "C:\\Users\\GOLASHBOY\\Pictures\\Camera Roll"
+            image = os.listdir(image_dir)
+            print(image)    
+            os.startfile(os.path.join(image_dir, image[0]))
 
         elif 'Tell me the current time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
@@ -95,9 +110,9 @@ if __name__ == "__main__":
         elif 'email to Himanshu' in query:
             try:
                 speak("What should be in email Sir ?")
-                content = takeCommand()
+                content = Command()
                 to = "golashhimanshu4@gmail.com"    
-                sendEmail(to, content)
+                Email(to, content)
                 speak("Email has been sent Successfully to You Sir!")
             except Exception as e:
                 print(e)

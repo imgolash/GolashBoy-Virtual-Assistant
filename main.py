@@ -7,6 +7,11 @@ import wikipedia
 import webbrowser
 import smtplib
 import datetime
+import folium 
+import requests
+import rotatescreen
+import time
+
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -21,33 +26,33 @@ def speak(audio):
 def greet():
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
-        speak("Good Morning Sir, Have Your Tea Or Coffee!")
+        speak("Good Morning Himanshu Sir, Did You Have Your Tea Or Coffee!")
 
     elif hour>=12 and hour<18:
-        speak("Good Afternoon Sir, Have Your Lunch or not!")   
+        speak("Good Afternoon Himanshu Sir, Did You Have Your Lunch!")   
 
     else:
-        speak("Good Evening Sir,Have Your Snacks or not!")  
+        speak("Good Evening Himanshu Sir, Did You Have Your Snacks!")  
 
-    speak("I am MALGO Your Personal Assistant Himanshu sir. How may I help you")       
+    speak("I am MALGO Your Personal Assistant Sir. How may I help you")       
 
 def Command():
     
 
     r = him1.Recognizer()
     with him1.Microphone() as source:
-       r.adjust_for_ambient_noise(source,duration=5)
+       r.adjust_for_ambient_noise(source,duration=4)
        print("Listening You Sir......")
        speak("Listening You Sir......")
-       r.pause_threshold = 0.8
+       r.pause_threshold = 0.6
        audio = r.listen(source)
 
     try:
-        print("Try To Gotting...")
-        speak("Try To Gotting...")    
-        query = r.recognize_google(audio, language='en-in')
-        print("Ok Sir >>\n")
-        speak("Ok Sir >>\n")
+        print("Trying to understand...")
+        speak("Trying to understand...")    
+        query = r.recognize_google(audio, language='en-in').lower()
+        print("Ok Sir :-)\n")
+        speak("Ok Sir \n")
 
     except Exception as e:
         
@@ -67,16 +72,16 @@ def Email(to, content):
 
 if __name__ == "__main__":
     greet()
-    while True:
+    while (True):
 
         query = Command().lower()
 
        
-        if 'Tell Me About ' in query:
-            speak('Searching From Net...')
+        if 'wikipedia' in query:
+            speak('What do you want to search from Wikipedia...')
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences=2)
-            speak("As Net Says...")
+            speak("As Internet Says...")
             print(results)
             speak(results)
 
@@ -85,11 +90,40 @@ if __name__ == "__main__":
             
         elif 'take screenshot'in query:
             SS = him2.screenshot()
-            SS.save(r'C:\Users\GOLASHBOY\Pictures\ss\pic1.png')    
+            SS.save(r'D:\test\pic2.png')
+            print("Screenshot Saved Himanshu Sir")
+            speak("Screenshot Saved Himanshu Sir")   
             
         elif 'send whatsapp to me' in query:
-            him.sendwhatmsg("+919634470602","Hi sir how are you?",17,40)    
+            him.sendwhatmsg("+919634470602","Hi Sir Good Afternoon?",14,23)
+        
+        elif 'rotate' in query:
+            print("I am rotating your screen")
+            speak("I am rotating your screen")
+            screen = rotatescreen.get_primary_display()
+            for i in range(100):
+                time.sleep(1)
+                screen.rotate_to(i*90%360)
+        
+         
+        elif 'Map current location' in query:
+            curr_map=folium.Map(location=[27.1843328,77.98784]).save("him.html")
+            webbrowser.open("him.html")
+        
+        elif 'My state cases' in query:
+            state = 'Uttar Pradesh'.upper()
+            api_used = "https://api.covid19india.org/data.json"
+            json_data = requests.get(api_used).json()
+            
+            arr = range(0,30)
+            for n in arr:
+                if state == json_data['statewise'][n]['state'].upper():
+                    Total_Case = json_data['statewise'][n]['confirmed']
+                    n+= 1
+                    print(f"Active Case in {state} is {Total_Case}")
+                    speak(f"Active Case in {state} is {Total_Case}")
 
+                          
         elif 'open my youtube' in query:
             webbrowser.open("www.youtube.com")
 
@@ -97,17 +131,17 @@ if __name__ == "__main__":
             webbrowser.open("www.github.com")   
 
 
-        elif 'open image MALGO' in query:
-            image_dir = "C:\\Users\\GOLASHBOY\\Pictures\\Camera Roll"
+        elif 'open image' in query:
+            image_dir = "D:\\test\\pic1.png"
             image = os.listdir(image_dir)
             print(image)    
             os.startfile(os.path.join(image_dir, image[0]))
 
-        elif 'Tell me the current time' in query:
+        elif 'time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
-            speak("Himanshu Sir, the time is {strTime}")
+            speak("Sir, the time is {strTime}")
 
-        elif 'email to Himanshu' in query:
+        elif 'email to Sir' in query:
             try:
                 speak("What should be in email Sir ?")
                 content = Command()
@@ -116,4 +150,4 @@ if __name__ == "__main__":
                 speak("Email has been sent Successfully to You Sir!")
             except Exception as e:
                 print(e)
-                speak("Sorry Himanshu Sir. I am not able to send this email to anyone.")  
+                speak("Sorry Sir. I am not able to send this email to anyone.")  

@@ -7,10 +7,11 @@ import wikipedia
 import webbrowser
 import smtplib
 import datetime
-import folium 
-import requests
-import rotatescreen
-import time
+import folium  
+import cv2
+import pytube  
+from pytube import YouTube  
+import numpy as np
 
 
 engine = pyttsx3.init('sapi5')
@@ -26,13 +27,13 @@ def speak(audio):
 def greet():
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
-        speak("Good Morning Himanshu Sir, Did You Have Your Tea Or Coffee!")
+        speak("Good Morning Himanshu Sir, Have Your Tea Or Coffee!")
 
     elif hour>=12 and hour<18:
-        speak("Good Afternoon Himanshu Sir, Did You Have Your Lunch!")   
+        speak("Good Afternoon Himanshu Sir, Have Your Lunch or not!")   
 
     else:
-        speak("Good Evening Himanshu Sir, Did You Have Your Snacks!")  
+        speak("Good Evening Himanshu Sir ,Have Your Snacks or not!")  
 
     speak("I am MALGO Your Personal Assistant Sir. How may I help you")       
 
@@ -75,10 +76,9 @@ if __name__ == "__main__":
     while (True):
 
         query = Command().lower()
-
        
-        if 'wikipedia' in query:
-            speak('What do you want to search from Wikipedia...')
+        if 'Tell Me About ' in query:
+            speak('Searching From Internet...')
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences=2)
             speak("As Internet Says...")
@@ -87,57 +87,66 @@ if __name__ == "__main__":
 
         elif 'open my google' in query:
             webbrowser.open("www.google.com")
+            print("Opening Google")
+            speak("Opening Google")
             
         elif 'take screenshot'in query:
             SS = him2.screenshot()
-            SS.save(r'D:\test\pic2.png')
-            print("Screenshot Saved Himanshu Sir")
-            speak("Screenshot Saved Himanshu Sir")   
+            SS.save(r'E:\TEST\pic1.png')
+            print("Screenshot Saved")
+            speak("Screenshot Saved")
+            
+        elif 'remove watermark' in query:
+            img = cv2.imread("E:\\TEST1\\input.jpg")
+            alpha = 2.0
+            beta = -160
+            new = alpha * img + beta
+            new = np.clip(new, 0, 255).astype(np.uint8)
+            cv2.imwrite("E:\\TEST1\\output.jpg", new)
+            print("Watermark Removed For You Sir")
+            speak("Watermark Removed For You Sir")
+        
+        elif 'download viedo' in query:
+            video_url = 'https://www.youtube.com/watch?v=V7LwfY5U5WI'   
+            youtube = pytube.YouTube(video_url)  
+            video = youtube.streams.first()  
+            video.download('E:\\FILMS')   
+            print("Viedo Saved")
+            speak("Viedo Saved")
+            
             
         elif 'send whatsapp to me' in query:
-            him.sendwhatmsg("+919634470602","Hi Sir Good Afternoon?",14,23)
-        
-        elif 'rotate' in query:
-            print("I am rotating your screen")
-            speak("I am rotating your screen")
-            screen = rotatescreen.get_primary_display()
-            for i in range(100):
-                time.sleep(1)
-                screen.rotate_to(i*90%360)
-        
+            him.sendwhatmsg("+919634470602","Hi sir how are you?",17,40)
+            print("Sending Whatsapp Message")
+            speak("Sending Whatsapp Message")
+            
          
         elif 'Map current location' in query:
-            curr_map=folium.Map(location=[27.1843328,77.98784]).save("him.html")
-            webbrowser.open("him.html")
-        
-        elif 'My state cases' in query:
-            state = 'Uttar Pradesh'.upper()
-            api_used = "https://api.covid19india.org/data.json"
-            json_data = requests.get(api_used).json()
-            
-            arr = range(0,30)
-            for n in arr:
-                if state == json_data['statewise'][n]['state'].upper():
-                    Total_Case = json_data['statewise'][n]['confirmed']
-                    n+= 1
-                    print(f"Active Case in {state} is {Total_Case}")
-                    speak(f"Active Case in {state} is {Total_Case}")
-
+            curr_map=folium.Map(location=[27.1843328,77.98784]).save("E:\\TEST\\him.html")
+            webbrowser.open("E:\\TEST\\him.html")
+            print("Done Sir")
+            speak("Done Sir")
                           
         elif 'open my youtube' in query:
             webbrowser.open("www.youtube.com")
+            print("Done Sir")
+            speak("Done Sir")
+            
 
         elif 'open my github ' in query:
-            webbrowser.open("www.github.com")   
+            webbrowser.open("www.github.com")  
+            print("Done Sir")
+            speak("Done Sir") 
 
-
-        elif 'open image' in query:
-            image_dir = "D:\\test\\pic1.png"
+        elif 'open image MALGO' in query:
+            image_dir = "C:\\Users\\GOLASHBOY\\Pictures\\Camera Roll"
             image = os.listdir(image_dir)
             print(image)    
             os.startfile(os.path.join(image_dir, image[0]))
+            print("Done Sir")
+            speak("Done Sir")
 
-        elif 'time' in query:
+        elif 'Tell me the current time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
             speak("Sir, the time is {strTime}")
 

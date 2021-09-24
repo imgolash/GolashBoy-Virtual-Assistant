@@ -89,30 +89,7 @@ if __name__ == "__main__":
             webbrowser.open("www.google.com")
             print("Opening Google")
             speak("Opening Google")
-            
-        elif 'take screenshot'in query:
-            SS = him2.screenshot()
-            SS.save(r'E:\TEST\pic1.png')
-            print("Screenshot Saved")
-            speak("Screenshot Saved")
-            
-        elif 'remove watermark' in query:
-            img = cv2.imread("E:\\TEST1\\input.jpg")
-            alpha = 2.0
-            beta = -160
-            new = alpha * img + beta
-            new = np.clip(new, 0, 255).astype(np.uint8)
-            cv2.imwrite("E:\\TEST1\\output.jpg", new)
-            print("Watermark Removed For You Sir")
-            speak("Watermark Removed For You Sir")
-        
-        elif 'download viedo' in query:
-            video_url = 'https://www.youtube.com/watch?v=V7LwfY5U5WI'   
-            youtube = pytube.YouTube(video_url)  
-            video = youtube.streams.first()  
-            video.download('E:\\FILMS')   
-            print("Viedo Saved")
-            speak("Viedo Saved")
+           
             
             
         elif 'send whatsapp to me' in query:
